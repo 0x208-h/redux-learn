@@ -1,12 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+// import App from './App';
+import ReduxLearn from './Redux';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux'
+import store from './reactReduxStore'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* <App /> */}
+    <Provider store={store}>
+      <ReduxLearn />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,6 +1,15 @@
 import React, { ChangeEvent, useState, useEffect } from 'react';
+// import { CHANGE_VALUE, CLICK_BTN, DELETE_ITEM } from './store/actionType'
 // import { }
-import { Button, Input, List, Typography } from 'antd'
+import { 
+  getInputChangeAction, 
+  getAddItemAction, 
+  getDeleteItemAction, 
+  // initListAction, 
+  getInitList } 
+from './store/actionCreator'
+// import { Button, Input, List, Typography } from 'antd'
+import UI from './UI'
 import 'antd/dist/antd.css'
 import store from './store';
 
@@ -31,50 +40,59 @@ function App() {
     console.log(store.getState(), 'store')
   })
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const action = {
-      type: 'change_value',
-      value: e.target.value
-    }
+    // const action = {
+    //   type: CHANGE_VALUE,
+    //   value: e.target.value
+    // }
+    const action = getInputChangeAction(e.target.value)
 
     store.dispatch(action)
   }
   
   const handleClick = () => {
-    const action = {
-      type: 'click_btn'
-    }
+    // const action = {
+    //   type: CLICK_BTN
+    // }
+    const action = getAddItemAction()
 
     store.dispatch(action)
   }
 
   const handleItemClick = (id: number) => {
-    const action = {
-      type: 'delete_item',
-      id
-    }
+    // const action = {
+    //   type: DELETE_ITEM,
+    //   id
+    // }
+    const action = getDeleteItemAction()
 
     store.dispatch(action)
   }
 
+  useEffect(() => {
+    // const fetchData = async () => {
+    //   const res = await  axios.get('list.json')
+    //   console.log(res, 'res')
+    // }
+    // fetchData()
+      // setTimeout(() => {
+      //   const data = ["hello", "lee", "lw"]
+      //   const action = initListAction(data)
+      //   store.dispatch(action)
+      // },2000)
+    // const action = getTodoList()
+    // store.dispatch(action)
+
+    const action = getInitList()
+    store.dispatch(action)
+  }, [])
+
   return (
-    <div style={{margin:' 40px 80px'}}>
-      <Input 
-        style={{ width: 200, marginRight: 20 }} 
-        value={value.inputValue}
-        onChange={handleChange}
-      />
-      <Button type="primary" onClick={handleClick}>提交</Button>
-      <List
-      style={{ marginTop: 10 }}
-      bordered
-      dataSource={value.list}
-      renderItem={(item, index) => (
-        <List.Item onClick={() => handleItemClick(index)}>
-          <Typography.Text mark>[ITEM]</Typography.Text> {item}
-        </List.Item>
-      )}
+    <UI 
+      value={value} 
+      handleChange={handleChange}
+      handleClick={handleClick}
+      handleItemClick={handleItemClick}
     />
-    </div>
   );
 }
 
